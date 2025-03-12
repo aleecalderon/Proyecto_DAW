@@ -1,0 +1,63 @@
+
+body{
+    margin-left: 0;
+    font-family: "Josefin Sans", sans-serif;
+    margin-top: 0;
+    margin: 0;
+    background-color: rgb(221, 221, 221);
+}
+
+.logo img{
+    width: 90px;
+    padding-left: 30px;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 70px;
+    padding-left: 0px;
+    margin-left: 0px;
+    background-color: rgb(9, 9, 48);
+}
+
+.encabezado a{
+    text-decoration: none;
+    padding-right: 50px;
+    color: white;
+}
+
+.mapa {
+    padding-top: 85px;
+    width: 940px;
+    margin: auto;
+}
+path {
+    fill: #0c133a;
+    stroke: #ffffff;
+    stroke-width: 0.2px;
+    transition: fill 0.3s;
+}
+path:hover {
+    fill: #bebebe;
+}
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+    font-size: 14px;
+    width: 200px;
+    text-align: center;
+}
+.tooltip img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
