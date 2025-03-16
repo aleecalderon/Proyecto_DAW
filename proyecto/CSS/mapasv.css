@@ -4,13 +4,15 @@ body{
     font-family: "Josefin Sans", sans-serif;
     margin-top: 0;
     margin: 0;
-    background-color: rgb(221, 221, 221);
+    background-color: rgb(255, 255, 255);
 }
 
 .logo img{
     width: 90px;
     padding-left: 80px;
 }
+
+/*Menú principal*/
 
 header{
     display: flex;
@@ -141,3 +143,4 @@ path:hover {
 .sidebar.open ~ .content {
     margin-left: 250px;
 }
+
