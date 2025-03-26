@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+}
+
+.developer {
+    text-align: center;
+}
+
+.developer img {
+    width: 200px;
+    border-radius: 5%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(5, 0, 82, 0.575); 
+}
+
+.developer p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
