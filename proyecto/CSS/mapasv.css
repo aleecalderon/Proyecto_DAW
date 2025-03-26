@@ -14,7 +14,7 @@ body{
 
 /*Menú principal*/
 
-header{
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,15 +22,50 @@ header{
     width: 100%;
     top: 0;
     height: 70px;
-    padding-left: 0px;
-    margin-left: 0px;
     background-color: rgb(9, 9, 48);
+    z-index: 1000;
 }
 
-.encabezado a{
+.encabezado {
+    display: flex;
+    gap: 20px;
+}
+
+.encabezado b {
+    position: relative;
+}
+
+.encabezado a {
     text-decoration: none;
-    padding-right: 50px;
+    padding: 10px 20px;
     color: white;
+    font-size: 18px;
+    display: inline-block;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgb(9, 9, 48);
+    width: 180px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown a {
+    display: block;
+    padding: 8px 10px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.dropdown a:hover {
+    background-color: #bebebe;
+}
+
+.encabezado b:hover .dropdown {
+    display: block;
 }
 
 .mapa {
@@ -64,59 +99,6 @@ path:hover {
     border-radius: 5px;
 }
 
-.sidebar {
-    width: 250px;
-    height: 100vh;
-    background: #0c133a;
-    color: white;
-    position: fixed;
-    left: -250px;
-    transition: left 0.3s ease-in-out;
-    padding-top: 20px;
-}
-
-.sidebar.open {
-    left: 0;
-}
-
-.toggle-btn {
-    position: absolute;
-    top: 70px;
-    right: -30px;
-    background: #0c133a;
-    border: #0c133a;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.toggle-btn:hover {
-    transform: scale(1.1);
-}
-
-.menu {
-    list-style: none;
-    padding: 0;
-}
-
-.menu li {
-    padding: 15px;
-    text-align: center;
-}
-
-.menu a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    display: block;
-    transition: background 0.3s;
-}
-
-.menu a:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
 .content {
     margin-left: 0;
     padding: 20px;
@@ -140,7 +122,42 @@ path:hover {
     height: min-content;
 }
 
-.sidebar.open ~ .content {
-    margin-left: 250px;
+/*EDICION DEL FORMULARIO */
+.formulario {
+    background: white;
+    margin-left: 400px;
+    padding: 40px;
+    border-radius: 10px;
+    width: 500px;
+}
+
+.formulario div {
+    margin-bottom: 15px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.error {
+    color: rgb(99, 0, 0);
+    font-size: 12px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: rgb(9, 9, 48);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #bebebe;
 }
 
