@@ -36,3 +36,37 @@ body {
     font-weight: bold;
     color: #333;
 }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 70px;
+    background-color: rgb(9, 9, 48);
+    z-index: 1000;
+}
+
+.encabezado {
+    display: flex;
+    gap: 20px;
+}
+
+.encabezado b {
+    position: relative;
+}
+
+.encabezado a {
+    text-decoration: none;
+    padding: 10px 20px;
+    color: white;
+    font-size: 18px;
+    display: inline-block;
+}
+
+.logo img{
+    width: 170px;
+    padding-left: 80px;
+}
