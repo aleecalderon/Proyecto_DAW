@@ -97,8 +97,145 @@ document.getElementById("contacto").addEventListener("submit", function(event) {
 
     // Si todas las validaciones son correctas, se envía el formulario
     if (valido) {
+        // Crear un objeto con los datos del formulario
+        const nuevoComentario = {
+            nombre,
+            email,
+            pais,
+            mensaje,
+            fecha: new Date().toLocaleString()
+        };
+
+        // Obtener comentarios anteriores del localStorage
+        let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+
+        // Agregar el nuevo comentario
+            comentarios.push(nuevoComentario);
+
+        // Guardar todo en localStorage como JSON
+            localStorage.setItem("comentarios", JSON.stringify(comentarios));
+
         alert("Formulario enviado correctamente");
         this.reset(); // Limpia el formulario
     }
 });
+
+ //Comentarios guardados 
+ document.addEventListener("DOMContentLoaded", () => {
+    const contenedorComentarios = document.getElementById("comentarios-guardados");
+    const comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+
+    comentarios.forEach((comentario, index) => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <p><strong>${comentario.nombre}</strong> (${comentario.email}) - ${comentario.fecha}</p>
+            <p>${comentario.mensaje}</p>
+            <button onclick="eliminarComentario(${index})">Eliminar comentario </button>
+            <hr>
+        `;
+        contenedorComentarios.appendChild(div);
+    });
+});
+
+function eliminarComentario(index) {
+    let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+    comentarios.splice(index, 1);
+    localStorage.setItem("comentarios", JSON.stringify(comentarios));
+    location.reload(); // Recargar para ver los cambios
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const departamentos = [
+        { id: "ahuachapan", archivo: "ahuachapan.html" },
+        { id: "santaana", archivo: "santaana.html" },
+        { id: "sonsonate", archivo: "sonsonate.html" },
+        { id: "chalatenango", archivo: "chalate.html" },
+        { id: "lalibertad", archivo: "lalibertad.html" },
+        { id: "cuscatlan", archivo: "cusca.html" },
+        { id: "sansalvador", archivo: "sansalvador.html" },
+        { id: "lapaz", archivo: "lapaz.html" },
+        { id: "cabañas", archivo: "cabañas.html" },
+        { id: "sanvicente", archivo: "sanvicente.html" },
+        { id: "usulutan", archivo: "usulutan.html" },
+        { id: "sanmiguel", archivo: "sanmiguel.html" },
+        { id: "morazan", archivo: "morazan.html" },
+        { id: "launion", archivo: "launion.html" }
+    ];
+
+    departamentos.forEach(dep => {
+        const elemento = document.getElementById(dep.id);
+        if (elemento) {
+            elemento.style.cursor = "pointer";
+            elemento.addEventListener("click", () => {
+                window.location.href = dep.archivo;
+            });
+        }
+    });
+});
+
+
+//Seccion de la barra de busqueda y 
+
+document.addEventListener("DOMContentLoaded", () => {
+    const departamentos = [
+        { id: "ahuachapan", nombre: "Ahuachapán", archivo: "ahuachapan.html" },
+        { id: "santa-ana", nombre: "Santa Ana", archivo: "santaana.html" },
+        { id: "sonsonate", nombre: "Sonsonate", archivo: "sonsonate.html" },
+        { id: "chalatenango", nombre: "Chalatenango", archivo: "chalate.html" },
+        { id: "la-libertad", nombre: "La Libertad", archivo: "lalibertad.html" },
+        { id: "cuscatlan", nombre: "Cuscatlán", archivo: "cusca.html" },
+        { id: "san-salvador", nombre: "San Salvador", archivo: "sansalvador.html" },
+        { id: "lapaz", nombre: "La Paz", archivo: "lapaz.html" },
+        { id: "cabañas", nombre: "Cabañas", archivo: "cabañas.html" },
+        { id: "san-vicente", nombre: "San Vicente", archivo: "sanvicente.html" },
+        { id: "usulutan", nombre: "Usulután", archivo: "usulutan.html" },
+        { id: "san-miguel", nombre: "San Miguel", archivo: "sanmiguel.html" },
+        { id: "morazan", nombre: "Morazán", archivo: "morazan.html" },
+        { id: "la-union", nombre: "La Unión", archivo: "launion.html" }
+    ];
+
+    departamentos.forEach(dep => {
+        const path = document.getElementById(dep.id);
+        if (path) {
+            path.addEventListener("click", () => {
+                window.location.href = dep.archivo;
+            });
+        }
+    });
+
+    const input = document.getElementById("buscador");
+    const resultados = document.getElementById("resultados");
+
+    input.addEventListener("input", () => {
+        const texto = input.value.trim().toLowerCase();
+
+    // Limpiar colores y resultados anteriores
+        departamentos.forEach(dep => {
+            const path = document.getElementById(dep.id);
+            if (path) path.style.fill = ""; // reiniciar color
+        });
+        resultados.innerHTML = "";
+
+        if (texto === "") return;
+
+        const encontrados = departamentos.filter(dep => {
+            return dep.nombre.toLowerCase().startsWith(texto);
+        });
+
+        if (encontrados.length > 0) {
+            encontrados.forEach(dep => {
+                const path = document.getElementById(dep.id);
+                if (path) path.style.fill = "#9c9c9c"; // color 
+            });
+        } else {
+            resultados.innerHTML = "";
+        }
+    });
+});
+
+
+//Agregando JSON en LocalStorage 
+
+
 

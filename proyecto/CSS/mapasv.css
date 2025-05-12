@@ -122,10 +122,41 @@ path:hover {
     height: min-content;
 }
 
+/*Buscador */
+
+#busqueda-container {
+    text-align: center;
+    margin-top: 0px;
+    padding-right: 30px;
+}
+
+#buscador {
+    padding: 10px;
+    width: 90%;
+    font-size: 16px;
+    border-radius: 50px;
+    border: 1px solid #0004362d;
+}
+
+#resultados {
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+}
+
+.departamento {
+    background-color: #f2f2f2;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+
 /*EDICION DEL FORMULARIO */
 .formulario {
     background: white;
-    margin-left: 400px;
+    margin-left: 380px;
     padding: 40px;
     border-radius: 10px;
     width: 500px;
@@ -161,3 +192,50 @@ button:hover {
     background: #bebebe;
 }
 
+#comentarios-guardados h3{
+    text-align: center;
+    font-size: 30px;
+}
+
+#comentarios-guaraddos{
+    padding: 1rem;
+    max-width: 600px;
+    margin: auto;
+}
+
+#contacto h2{
+    text-align: center;
+}
+
+#comentarios-guardados {
+    padding: 1rem;
+    max-width: 600px;
+    margin: auto;
+}
+
+#comentarios-guardados div {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#comentarios-guardados p {
+    margin: 8px 0;
+}
+
+#comentarios-guardados button {
+    background: rgb(9, 9, 48);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#comentarios-guardados button:hover {
+    background: #bebebe;
+}
