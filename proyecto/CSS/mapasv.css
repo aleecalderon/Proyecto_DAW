@@ -92,6 +92,8 @@ path:hover {
     font-size: 14px;
     width: 200px;
     text-align: center;
+    pointer-events: none; /* ¡evita que el cursor interactúe con el tooltip! */
+    z-index: 9999;
 }
 .tooltip img {
     width: 100%;

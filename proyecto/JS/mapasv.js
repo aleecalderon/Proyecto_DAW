@@ -1,31 +1,33 @@
-// Espera a que el contenido del DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", () => {
-    const tooltip = document.getElementById("tooltip"); // Contenedor del tooltip
-    const tooltipText = document.getElementById("tooltip-text"); // Texto dentro del tooltip
-    const tooltipImg = document.getElementById("tooltip-img"); // Imagen dentro del tooltip
-    
+// Obtiene los elementos del tooltip: el contenedor, el texto y la imagen
+    const tooltip = document.getElementById("tooltip");
+    const tooltipText = document.getElementById("tooltip-text");
+    const tooltipImg = document.getElementById("tooltip-img");
+
+// Recorre todos los elementos <path> del mapa SVG (cada uno representa un departamento)
     document.querySelectorAll("path").forEach(departamento => {
-        // Evento cuando el mouse pasa sobre un departamento
         departamento.addEventListener("mouseover", function (event) {
-            tooltipText.textContent = this.dataset.info; // Muestra el texto del data
-            tooltipImg.src = this.dataset.imagen; // Cambia la imagen según el data
-            tooltip.style.display = "block"; // Muestra el cuadro al colocar el cursor
-            tooltip.style.left = event.pageX + "px"; // Posiciona el cuadro 
-            tooltip.style.top = event.pageY + "px";
+            tooltipText.textContent = this.dataset.info;
+            tooltipImg.src = this.dataset.imagen;
+
+            // Muestra el tooltip SIN colocarlo justo bajo el cursor
+            $(tooltip).stop(true, true).fadeIn(200).css({
+                left: event.pageX + 15 + "px", 
+                top: event.pageY + 15 + "px"   
+            });
         });
-        
-        // Evento para mover el cuadro por el mapa seleccionado con el cursor
+
         departamento.addEventListener("mousemove", function (event) {
-            tooltip.style.left = event.pageX + "px";
-            tooltip.style.top = event.pageY + "px";
+            tooltip.style.left = event.pageX + 15 + "px";
+            tooltip.style.top = event.pageY + 15 + "px";
         });
-        
-        // Evento cuando el mouse deja de estar sobre el departamento
+
         departamento.addEventListener("mouseleave", function () {
-            tooltip.style.display = "none"; // Oculta el cuadro 
+            $(tooltip).stop(true, true).fadeOut(200); // Evita que el tooltip parpadee si hay movimientos rápidos del mouse
         });
     });
 });
+
 
 
 // CLASE PARA VALIDAR FORMULARIO
@@ -51,53 +53,46 @@ class Validador {
     }
 }
 
-// Evento que se ejecuta cuando se envía el formulario
-document.getElementById("contacto").addEventListener("submit", function(event) {
-    event.preventDefault(); // Evita el envío automático del formulario
+//Se utiliza en el formulario y sus validaciones jQuery y AJAX 
+$("#contacto").on("submit", function (event) {
+    event.preventDefault(); //evita que el formulario se recargue 
 
-    // Obtiene los valores de los campos del formulario
-    const nombre = document.getElementById("nombre").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const pais = document.getElementById("pais").value;
-    const mensaje = document.getElementById("mensaje").value.trim();
+    const nombre = $("#nombre").val().trim();
+    const email = $("#email").val().trim();
+    const pais = $("#pais").val();
+    const mensaje = $("#mensaje").val().trim();
 
-    let valido = true; // Determinar si el formulario es válido
+    let valido = true;
 
-    // Validación del nombre
     if (!Validador.validarNombre(nombre)) {
-        document.getElementById("error-nombre").textContent = "Nombre inválido (solo letras y espacios)";
+        $("#error-nombre").text("Nombre inválido (solo letras y espacios)");
         valido = false;
     } else {
-        document.getElementById("error-nombre").textContent = "";
+        $("#error-nombre").text("");
     }
 
-    // Validación del correo electrónico
     if (!Validador.validarEmail(email)) {
-        document.getElementById("error-email").textContent = "Correo inválido";
+        $("#error-email").text("Correo inválido");
         valido = false;
     } else {
-        document.getElementById("error-email").textContent = "";
+        $("#error-email").text("");
     }
 
-    // Validación del país seleccionado
     if (!Validador.validarPais(pais)) {
-        document.getElementById("error-pais").textContent = "Debe seleccionar un país";
+        $("#error-pais").text("Debe seleccionar un país");
         valido = false;
     } else {
-        document.getElementById("error-pais").textContent = "";
+        $("#error-pais").text("");
     }
 
-    // Validación del mensaje
     if (!Validador.validarMensaje(mensaje)) {
-        document.getElementById("error-mensaje").textContent = "El mensaje debe tener al menos 10 caracteres";
+        $("#error-mensaje").text("El mensaje debe tener al menos 10 caracteres");
         valido = false;
     } else {
-        document.getElementById("error-mensaje").textContent = "";
+        $("#error-mensaje").text("");
     }
 
-    // Si todas las validaciones son correctas, se envía el formulario
     if (valido) {
-        // Crear un objeto con los datos del formulario
         const nuevoComentario = {
             nombre,
             email,
@@ -106,45 +101,49 @@ document.getElementById("contacto").addEventListener("submit", function(event) {
             fecha: new Date().toLocaleString()
         };
 
-        // Obtener comentarios anteriores del localStorage
         let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+        comentarios.push(nuevoComentario);
+        localStorage.setItem("comentarios", JSON.stringify(comentarios));
 
-        // Agregar el nuevo comentario
-            comentarios.push(nuevoComentario);
+        // Mostrar mensaje del comentario  
+        $("<p class='exito'>Comentario enviado correctamente</p>").insertBefore("#contacto").fadeOut(3000);
+        this.reset();
 
-        // Guardar todo en localStorage como JSON
-            localStorage.setItem("comentarios", JSON.stringify(comentarios));
-
-        alert("Formulario enviado correctamente");
-        this.reset(); // Limpia el formulario
+        // Recargar la sección de comentarios sin recargar toda la página
+        mostrarComentarios();
     }
 });
 
- //Comentarios guardados 
- document.addEventListener("DOMContentLoaded", () => {
-    const contenedorComentarios = document.getElementById("comentarios-guardados");
+// Función para mostrar todos los comentarios guardados en localStorage
+function mostrarComentarios() {
+     // Obtiene los comentarios desde localStorage 
     const comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+    const $contenedor = $("#comentarios-guardados");
+    $contenedor.empty();
 
+     // Recorre cada comentario y lo agrega al contenedor 
     comentarios.forEach((comentario, index) => {
-        const div = document.createElement("div");
-        div.innerHTML = `
-            <p><strong>${comentario.nombre}</strong> (${comentario.email}) - ${comentario.fecha}</p>
-            <p>${comentario.mensaje}</p>
-            <button onclick="eliminarComentario(${index})">Eliminar comentario </button>
-            <hr>
-        `;
-        contenedorComentarios.appendChild(div);
+        $contenedor.append(`
+            <div>
+                <p><strong>${comentario.nombre}</strong> (${comentario.email}) - ${comentario.fecha}</p>
+                <p>${comentario.mensaje}</p>
+                <button class="eliminar-comentario" data-index="${index}">Eliminar comentario</button>
+                <hr>
+            </div>
+        `);
     });
-});
+}
 
 function eliminarComentario(index) {
     let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
     comentarios.splice(index, 1);
-    localStorage.setItem("comentarios", JSON.stringify(comentarios));
-    location.reload(); // Recargar para ver los cambios
+    // Guarda la nueva lista de comentarios sin el eliminado
+    localStorage.setItem("comentarios", JSON.stringify(comentarios)); 
+    // Recarga la página para actualizar la vista
+    location.reload(); 
 }
 
-
+//Evento para que al dar click en el departamento lo lleve a su respectivo html sin necesidad de colocar href 
 document.addEventListener("DOMContentLoaded", () => {
     const departamentos = [
         { id: "ahuachapan", archivo: "ahuachapan.html" },
@@ -172,6 +171,18 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     });
+    $(document).ready(() => {
+        mostrarComentarios();
+    
+        $(document).on("click", ".eliminar-comentario", function () {
+            const index = $(this).data("index");
+            let comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+            comentarios.splice(index, 1);
+            localStorage.setItem("comentarios", JSON.stringify(comentarios));
+            mostrarComentarios();
+        });
+    });
+    
 });
 
 
@@ -233,9 +244,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
-
-//Agregando JSON en LocalStorage 
-
 
 
